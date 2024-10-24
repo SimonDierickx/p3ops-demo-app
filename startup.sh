@@ -1,7 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-sudo docker stop sql1 && sudo docker rm sql1
+dnf install -y libicu
+
+docker stop sql1 && docker rm sql1
 
 # Pull and run the SQL Server Docker image
 docker pull mcr.microsoft.com/mssql/server:2022-latest
