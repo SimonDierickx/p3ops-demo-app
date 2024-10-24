@@ -8,7 +8,7 @@ docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=<YourStrong@Passw0rd>" -p 14
 echo "kaas1"
 # Remove any existing SDK tarball and download the new one
 rm -rf dotnet-sdk-8.0.403-linux-musl-arm64.tar.gz
-curl -L -o dotnet-sdk-8.0.403-linux-musl-arm64.tar.gz https://download.visualstudio.microsoft.com/download/pr/18e32a84-60ec-4d82-8ab1-84511be4172b/4a1e6bdd4f15e0d55e0d9bb20c67631e/dotnet-sdk-8.0.403-linux-musl-arm64.tar.gz
+curl -L -o dotnet-sdk-8.0.403-linux-x64.tar.gz https://download.visualstudio.microsoft.com/download/pr/9b682e2e-5f0e-48b4-b8b1-0e29c3b5e96d/2a1b8a5baff2e64111373559151dc606/dotnet-sdk-8.0.403-linux-x64.tar.gz
 
 echo "kaas2"
 # Clean up and create a directory for the SDK
@@ -17,7 +17,7 @@ mkdir dotnet
 
 echo "kaas3"
 # Extract the SDK tarball
-tar zxf dotnet-sdk-8.0.403-linux-musl-arm64.tar.gz -C dotnet
+tar zxf dotnet-sdk-8.0.403-linux-x64.tar.gz -C dotnet
 echo "kaas4"
 
 # Set environment variables for .NET
