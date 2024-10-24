@@ -12,8 +12,6 @@ mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-8.0.403-linux-musl-arm64.tar.gz -C $
 export DOTNET_ROOT=$HOME/dotnet
 export DOTNET_ROOT=$HOME/dotnet
 
-cd p3ops-demo-app
-
 dotnet clean
 dotnet restore src/Server/Server.csproj
 dotnet build src/Server/Server.csproj
