@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 docker stop sql1 && docker rm sql1
 
