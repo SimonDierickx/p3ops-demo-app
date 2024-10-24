@@ -1,8 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-dnf install -y libicu
-
 docker stop sql1 && docker rm sql1
 
 # Pull and run the SQL Server Docker image
