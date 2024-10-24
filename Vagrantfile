@@ -4,7 +4,7 @@ HOST_ONLY_NETWORK = "VirtualBox Host-Only Ethernet Adapter #2" # Typically on Wi
 
 Vagrant.configure("2") do |config|
     config.vm.define "database.NET" do |host|
-        host.vm.box = "generic/alpine318"
+        host.vm.box = "bento/almalinux-9.4"
         host.vm.hostname = "database.NET"
 
         # Set up private network with a static IP address
