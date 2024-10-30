@@ -2,6 +2,10 @@
 set -euo pipefail
 echo "kaas1"
 
+sudo dnf install -y icu
+unset DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
+
+echo "kaas1"
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 echo "kaas2"
 
