@@ -2,7 +2,6 @@
 set -euo pipefail
 echo "kaas1"
 
-dnf install -y icu
 unset DOTNET_SYSTEM_GLOBALIZATION_INVARIANT
 
 echo "kaas1"
