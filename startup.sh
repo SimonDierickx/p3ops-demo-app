@@ -55,4 +55,4 @@ echo "kaas17"
 export DOTNET_ConnectionStrings__SqlDatabase="Server=localhost,1433;Database=SportStore;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;"
 echo "kaas18"
 # Run the published application
-dotnet publish/Server.dll
+#dotnet publish/Server.dll
