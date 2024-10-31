@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
         host.vm.provider :virtualbox do |v|
             v.name = "database.NET"
             v.cpus = "1"
-            v.memory = "2048"
+            v.memory = "4096"
             v.customize ["modifyvm", :id, "--groups", "/test-vm-ops"]
         end
     end

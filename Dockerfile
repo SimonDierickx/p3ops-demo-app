@@ -27,4 +27,4 @@ ENV ConnectionStrings__DefaultConnection="Server=localhost,1433;Database=SportSt
 
 
 # Run the application
-ENTRYPOINT ["dotnet", "/app/publish/YourApplication.dll"]
+ENTRYPOINT ["dotnet", "/app/publish/Server.dll"]
