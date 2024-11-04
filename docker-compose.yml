@@ -3,14 +3,14 @@ services:
     image: mcr.microsoft.com/mssql/server
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourStrongPassw0rd
+      - SA_PASSWORD=mypassword
     ports:
-      - "1434:1433"  # Ensure this port matches your app's connection string
+      - "5432:5432"  # Ensure this port matches your app's connection string
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q 'SELECT 1'"]
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P mypassword -Q 'SELECT 1'"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 20
 
   app:
     build:
@@ -19,7 +19,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - ConnectionStrings__DefaultConnection="Server=db;Database=SportStore;User Id=sa;Password=YourStrongPassw0rd;"
+      - ConnectionStrings__DefaultConnection="Server=172.16.128.253,5432;Database=testdb;User Id=OPS;Password=mypassword;"
     depends_on:
       db:
         condition: service_healthy

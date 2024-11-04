@@ -26,7 +26,7 @@ RUN dotnet publish -c Release -o /app/publish
 EXPOSE 5000
 
 # Environment variables (ensure they match your app configuration)
-ENV ConnectionStrings__DefaultConnection="Server=localhost,1433;Database=SportStore;User Id=sa;Password=YourStrong@Passw0rd;"
+ENV ConnectionStrings__DefaultConnection="Server=172.16.128.253,5432;Database=testdb;User Id=OPS;Password=mypassword;"
 
 # Run the application with ENTRYPOINT, correcting the DLL path if needed
 ENTRYPOINT ["dotnet", "/app/publish/Server.dll"]
