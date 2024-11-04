@@ -7,10 +7,10 @@ services:
     ports:
       - "1434:1433"  # Ensure this port matches your app's connection string
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'YourStrong@Passw0rd' -Q 'SELECT 1'"]
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong@Passw0rd -Q 'SELECT 1'"]
       interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 5
 
   app:
     build:
