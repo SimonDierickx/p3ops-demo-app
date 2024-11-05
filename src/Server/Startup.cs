@@ -28,7 +28,6 @@ namespace Server
         {
             services.AddDbContext<SportStoreDbContext>(options =>
             {
-                // Use Npgsql for PostgreSQL
                 options.UseNpgsql(Configuration.GetConnectionString("SqlDatabase"));
                 if (Environment.IsDevelopment())
                 {
@@ -41,11 +40,12 @@ namespace Server
                 }
             });
 
-            services.AddControllersWithViews()
-                .AddFluentValidationAutoValidation() // Replaces AddFluentValidation()
-                .AddFluentValidationClientsideAdapters() // Replaces implicit client-side validation
-                .AddValidatorsFromAssemblyContaining<ProductDto.Mutate.Validator>(); // Updated validator registration method
+            // Configure FluentValidation on IServiceCollection, not on IMvcBuilder
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
+            services.AddValidatorsFromAssemblyContaining<ProductDto.Mutate.Validator>();
 
+            services.AddControllersWithViews();
             services.AddSwaggerGen(c =>
             {
                 c.CustomSchemaIds(x => $"{x.DeclaringType.Name}.{x.Name}");
