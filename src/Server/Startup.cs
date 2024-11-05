@@ -41,11 +41,11 @@ namespace Server
                 }
             });
 
-            services.AddControllersWithViews().AddFluentValidation(config =>
-            {
-                config.RegisterValidatorsFromAssemblyContaining<ProductDto.Mutate.Validator>();
-                config.ImplicitlyValidateChildProperties = true;
-            });
+            services.AddControllersWithViews()
+                .AddFluentValidationAutoValidation() // Replaces AddFluentValidation()
+                .AddFluentValidationClientsideAdapters() // Replaces implicit client-side validation
+                .AddValidatorsFromAssemblyContaining<ProductDto.Mutate.Validator>(); // Updated validator registration method
+
             services.AddSwaggerGen(c =>
             {
                 c.CustomSchemaIds(x => $"{x.DeclaringType.Name}.{x.Name}");
@@ -57,7 +57,6 @@ namespace Server
             services.AddScoped<SportStoreDataInitializer>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SportStoreDataInitializer dataInitializer)
         {
             if (env.IsDevelopment())
@@ -70,7 +69,6 @@ namespace Server
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
