@@ -1,32 +1,34 @@
-# Start from a basic AlmaLinux image
-FROM almalinux:latest
-
-# Install necessary packages and .NET 8.0 SDK
-RUN dnf update -y && \
-    dnf install -y dotnet-sdk-8.0 && \
-    dnf clean all
-
-# Set up environment variables for .NET
-ENV PATH="$PATH:/usr/lib64/dotnet"
-
-# Set the working directory for the application
+# Use .NET 8 SDK for building the application
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
-# Copy your .NET application files to the Docker container
-COPY . .
+# Copy and restore dependencies
+COPY . ./
+RUN dotnet restore src/Server/Server.csproj
 
-# Restore dependencies
-RUN dotnet restore
+# Build the project
+RUN dotnet publish src/Server/Server.csproj -c Release -o out
 
-# Build and publish the application
-RUN dotnet build -c Release
-RUN dotnet publish -c Release -o /app/publish
+# Use .NET 8 Runtime for running the application
+FROM almalinux:latest
 
-# Expose the port (adjust if different)
+# Install dependencies for .NET on AlmaLinux
+RUN dnf install -y \
+    openssl-libs \
+    krb5-libs \
+    libicu \
+    zlib \
+    && dnf clean all
+
+# Copy the build output from the SDK container
+WORKDIR /app
+COPY --from=build-env /app/out .
+
+# Set environment variables if needed
+ENV ASPNETCORE_URLS=http://+:5000
+
+# Expose the port your application will run on
 EXPOSE 5000
 
-# Environment variables (ensure they match your app configuration)
-ENV ConnectionStrings__DefaultConnection="Server=172.16.128.253,5432;Database=testdb;User Id=OPS;Password=mypassword;"
-
-# Run the application with ENTRYPOINT, correcting the DLL path if needed
-ENTRYPOINT ["dotnet", "/app/publish/Server.dll"]
+# Run the application
+ENTRYPOINT ["dotnet", "Server.dll"]
