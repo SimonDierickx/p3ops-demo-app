@@ -28,14 +28,15 @@ namespace Server
         {
             services.AddDbContext<SportStoreDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("SqlDatabase"));
+                // Use Npgsql for PostgreSQL
+                options.UseNpgsql(Configuration.GetConnectionString("SqlDatabase"));
                 if (Environment.IsDevelopment())
                 {
                     options.EnableDetailedErrors();
                     options.EnableSensitiveDataLogging();
-                    options.UseTriggers(options =>
+                    options.UseTriggers(triggers =>
                     {
-                        options.AddTrigger<OnBeforeEntitySaved>();
+                        triggers.AddTrigger<OnBeforeEntitySaved>();
                     });
                 }
             });

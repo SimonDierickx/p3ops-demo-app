@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
         host.vm.hostname = "database.NET"
 
         # Set up private network with a static IP address
-        host.vm.network "private_network", ip: "172.16.128.250", netmask: "255.255.0.0", name: HOST_ONLY_NETWORK
+        host.vm.network "private_network", ip: "192.168.24.32", netmask: "255.255.255.0", name: HOST_ONLY_NETWORK
 
         # Set up port forwarding for HTTP (5000) and HTTPS (5001) if needed
         host.vm.network "forwarded_port", guest: 5000, host: 5000
