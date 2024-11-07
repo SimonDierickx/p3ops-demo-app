@@ -6,4 +6,4 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - ConnectionStrings__DefaultConnection="Server=192.168.24.30,5432;Database=testdb;User Id=OPS;Password=mypassword;"
+      - ConnectionStrings__DefaultConnection="Server=localhost;Port=3306;Database=testdb;User=OPS;Password=mypassword;"
