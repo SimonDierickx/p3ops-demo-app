@@ -1,17 +1,4 @@
 services:
-  db:
-    image: mcr.microsoft.com/mssql/server
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=mypassword
-    ports:
-      - "5432:5432"  # Ensure this port matches your app's connection string
-    healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P mypassword -Q 'SELECT 1'"]
-      interval: 10s
-      timeout: 5s
-      retries: 20
-
   app:
     build:
       context: .
@@ -19,7 +6,4 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - ConnectionStrings__DefaultConnection="Server=172.16.128.253,5432;Database=testdb;User Id=OPS;Password=mypassword;"
-    depends_on:
-      db:
-        condition: service_healthy
+      - ConnectionStrings__DefaultConnection="Server=192.168.24.30,5432;Database=testdb;User Id=OPS;Password=mypassword;"

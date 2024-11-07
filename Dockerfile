@@ -2,6 +2,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
+RUN dnf install -y \
+    openssl-libs \
+    krb5-libs \
+    libicu \
+    zlib \
+    && dnf clean all
+
 # Copy and restore dependencies
 COPY . ./
 RUN dotnet restore src/Server/Server.csproj
@@ -13,12 +20,6 @@ RUN dotnet publish src/Server/Server.csproj -c Release -o out
 FROM almalinux:latest
 
 # Install dependencies for .NET on AlmaLinux
-RUN dnf install -y \
-    openssl-libs \
-    krb5-libs \
-    libicu \
-    zlib \
-    && dnf clean all
 
 # Copy the build output from the SDK container
 WORKDIR /app
