@@ -14,7 +14,6 @@ using Persistence.Triggers;
 using Services.Products;
 using Shared.Products;
 
-
 namespace Server
 {
     public class Startup
@@ -34,7 +33,7 @@ namespace Server
             {
                 options.UseMySql(
                     Configuration.GetConnectionString("SqlDatabase"),
-                    new MySqlServerVersion(new Version(8, 0, 21)) // specify your MySQL version here
+                    new MySqlServerVersion(new System.Version(8, 0, 21)) // specify your MySQL version here
                 );
 
                 if (Environment.IsDevelopment())
@@ -63,6 +62,39 @@ namespace Server
             services.AddRazorPages();
             services.AddProductServices();
             services.AddScoped<SportStoreDataInitializer>();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SportStoreDataInitializer dataInitializer)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sportstore API"));
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
+
+            dataInitializer.SeedData();
+
+            app.UseHttpsRedirection();
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
+            });
         }
     }
 }
