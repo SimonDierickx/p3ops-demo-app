@@ -27,6 +27,7 @@ COPY --from=build-env /app/out .
 
 # Set environment variables if needed
 ENV ASPNETCORE_URLS=http://+:5000
+ENV ASPNETCORE_ENVIRONMENT=Development
 
 # Expose the port your application will run on
 EXPOSE 5000
