@@ -2,12 +2,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
-RUN dnf install -y \
-    openssl-libs \
-    krb5-libs \
-    libicu \
-    zlib \
-    && dnf clean all
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    openssl \
+    krb5-locales \
+    libicu-dev \
+    zlib1g \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy and restore dependencies
 COPY . ./
@@ -16,13 +18,14 @@ RUN dotnet restore src/Server/Server.csproj
 # Build the project
 RUN dotnet publish src/Server/Server.csproj -c Release -o out
 
-# Use .NET 8 Runtime for running the application
+# Use AlmaLinux for the runtime
 FROM almalinux:latest
+WORKDIR /app
 
-# Install dependencies for .NET on AlmaLinux
+# Install dependencies for .NET on AlmaLinux if needed
+# (Add AlmaLinux specific dependencies here if required)
 
 # Copy the build output from the SDK container
-WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Set environment variables if needed
