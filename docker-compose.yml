@@ -8,21 +8,20 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - ConnectionStrings__SqlDatabase=Server=mysql;Port=3306;Database=testdb;User=OPS;Password=Ops@1234Password!;
+      - ConnectionStrings__DefaultConnection="Host=192.168.24.30;Port=5432;Database=testdb;Username=OPS;Password=mypassword;"
     depends_on:
-      - mysql
+      - postgres
     networks:
       - app-network
 
-  mysql:
-    image: mysql:8.0
+  postgres:
+    image: postgres:13
     environment:
-      MYSQL_ROOT_PASSWORD: "Root@1234Password!"
-      MYSQL_DATABASE: "testdb"
-      MYSQL_USER: "OPS"
-      MYSQL_PASSWORD: "Ops@1234Password!"
+      POSTGRES_USER: "OPS"
+      POSTGRES_PASSWORD: "mypassword"
+      POSTGRES_DB: "testdb"
     ports:
-      - "3306:3306"
+      - "5432:5432"
     networks:
       - app-network
 
